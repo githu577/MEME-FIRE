@@ -1,12 +1,12 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseService {
-  static SupabaseClient get client => Supabase.instance.client;
+  static SupabaseClient get client =>
+      Supabase.instance.client;
 
-  // Current user
-  static User? get currentUser => client.auth.currentUser;
+  static User? get currentUser =>
+      client.auth.currentUser;
 
-  // Sign up
   static Future<AuthResponse> signUp({
     required String email,
     required String password,
@@ -15,13 +15,10 @@ class SupabaseService {
     return await client.auth.signUp(
       email: email,
       password: password,
-      data: {
-        'username': username,
-      },
+      data: {'username': username},
     );
   }
 
-  // Login
   static Future<AuthResponse> signIn({
     required String email,
     required String password,
@@ -32,12 +29,14 @@ class SupabaseService {
     );
   }
 
-  // Logout
   static Future<void> signOut() async {
     await client.auth.signOut();
   }
 
-  // Get profile
+  static Future<void> logout() async {
+    await signOut();
+  }
+
   static Future<Map<String, dynamic>?> getProfile() async {
     final user = currentUser;
 
@@ -50,8 +49,13 @@ class SupabaseService {
         .maybeSingle();
   }
 
-  // Update username
-  static Future<void> updateUsername(String username) async {
+  static Future<Map<String, dynamic>?> profile() async {
+    return await getProfile();
+  }
+
+  static Future<void> updateUsername(
+    String username,
+  ) async {
     final user = currentUser;
 
     if (user == null) return;
