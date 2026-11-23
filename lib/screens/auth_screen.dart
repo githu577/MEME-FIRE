@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import '../services/supabase_service.dart';
 import 'home_screen.dart';
@@ -39,7 +40,7 @@ class _AuthScreenState extends State<AuthScreen> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Success!')),
+        const SnackBar(content: Text('Welcome to MEME FIRE!')),
       );
 
       if (SupabaseService.currentUser != null) {
@@ -72,8 +73,9 @@ class _AuthScreenState extends State<AuthScreen> {
       style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         labelText: label,
+        labelStyle: const TextStyle(color: Colors.white60),
         filled: true,
-        fillColor: const Color(0xFF171426),
+        fillColor: const Color(0xFF211A2B),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -92,13 +94,14 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF100D1C),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFF090812),
-              Color(0xFF21113F),
-              Color(0xFF090812),
+              Color(0xFF100D1C),
+              Color(0xFF671C20),
+              Color(0xFF100D1C),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -111,22 +114,23 @@ class _AuthScreenState extends State<AuthScreen> {
               child: Column(
                 children: [
                   const Icon(
-                    Icons.videogame_asset_rounded,
+                    Icons.local_fire_department,
                     size: 85,
-                    color: Color(0xFFA78BFA),
+                    color: Colors.orangeAccent,
                   ),
                   const SizedBox(height: 12),
                   const Text(
-                    'MEME HUNT',
+                    'MEME FIRE',
                     style: TextStyle(
                       fontSize: 34,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 4,
+                      color: Colors.orangeAccent,
                     ),
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Guess the meme. Beat your opponent.',
+                    'ENTER THE MEME BATTLE',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white60),
                   ),
@@ -154,7 +158,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     child: ElevatedButton(
                       onPressed: loading ? null : submit,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF8B5CF6),
+                        backgroundColor: Colors.deepOrange,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
@@ -182,6 +186,17 @@ class _AuthScreenState extends State<AuthScreen> {
                       isLogin
                           ? "Don't have an account? Sign Up"
                           : 'Already have an account? Login',
+                    ),
+                  ),
+
+                  const SizedBox(height: 25),
+
+                  const Text(
+                    'HAMIM DEVELOPER',
+                    style: TextStyle(
+                      color: Colors.white54,
+                      letterSpacing: 3,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
