@@ -5,15 +5,10 @@ import 'app.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
-  const supabaseKey = String.fromEnvironment('SUPABASE_ANON_KEY');
-
-  if (supabaseUrl.isNotEmpty && supabaseKey.isNotEmpty) {
-    await Supabase.initialize(
-      url: supabaseUrl,
-      anonKey: supabaseKey,
-    );
-  }
+  await Supabase.initialize(
+    url: 'https://addjgttfwfinnsejblgb.supabase.co',
+    anonKey: 'sb_publishable_tPLD9l0CHKd6UML3joIi6Q_2hbInZuA',
+  );
 
   runApp(const MemeHuntApp());
 }
