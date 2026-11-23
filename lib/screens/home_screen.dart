@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'profile_screen.dart';
 import 'settings_screen.dart';
+import 'character_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -82,13 +84,21 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void openCharacter() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const CharacterScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Stack(
           children: [
-            // SCENIC BACKGROUND
             Positioned.fill(
               child: CustomPaint(
                 painter: LobbyBackgroundPainter(),
@@ -96,12 +106,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             // TOP LOGO
-            Positioned(
+            const Positioned(
               left: 18,
               top: 12,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
                     'MEME FIRE',
                     style: TextStyle(
@@ -145,10 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     CircleAvatar(
                       backgroundColor: Colors.deepOrange,
                       radius: 19,
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.white,
-                      ),
+                      child: Icon(Icons.person, color: Colors.white),
                     ),
                     SizedBox(width: 10),
                     Column(
@@ -175,51 +182,54 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-            // CHARACTER PLACEHOLDER
+            // CHARACTER PREVIEW
             Positioned(
               bottom: 70,
               left: 0,
               right: 0,
-              child: Center(
-                child: Column(
-                  children: [
-                    Container(
-                      height: 155,
-                      width: 125,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(65),
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color(0xFFFFB46A),
-                            Color(0xFFFF5A19),
-                            Color(0xFF542D49),
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.orange.withOpacity(0.4),
-                            blurRadius: 35,
+              child: GestureDetector(
+                onTap: openCharacter,
+                child: Center(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 155,
+                        width: 125,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(65),
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xFFFFB46A),
+                              Color(0xFFFF5A19),
+                              Color(0xFF542D49),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
                           ),
-                        ],
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.orange.withOpacity(0.4),
+                              blurRadius: 35,
+                            ),
+                          ],
+                        ),
+                        child: const Icon(
+                          Icons.person,
+                          size: 115,
+                          color: Colors.white,
+                        ),
                       ),
-                      child: const Icon(
-                        Icons.person,
-                        size: 115,
-                        color: Colors.white,
+                      const SizedBox(height: 8),
+                      const Text(
+                        'CHARACTER • TAP TO SELECT',
+                        style: TextStyle(
+                          color: Colors.white,
+                          letterSpacing: 2,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'CHARACTER',
-                      style: TextStyle(
-                        color: Colors.white,
-                        letterSpacing: 3,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -241,6 +251,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       );
                     },
+                  ),
+                  menuButton(
+                    'CHARACTER',
+                    Icons.person_pin,
+                    openCharacter,
                   ),
                   menuButton(
                     'STORE',
@@ -299,10 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [
-                        Colors.orange,
-                        Colors.deepOrange,
-                      ],
+                      colors: [Colors.orange, Colors.deepOrange],
                     ),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
@@ -367,7 +379,6 @@ class LobbyBackgroundPainter extends CustomPainter {
     final w = size.width;
     final h = size.height;
 
-    // SKY
     final skyPaint = Paint()
       ..shader = const LinearGradient(
         begin: Alignment.topCenter,
@@ -380,22 +391,14 @@ class LobbyBackgroundPainter extends CustomPainter {
         ],
       ).createShader(Rect.fromLTWH(0, 0, w, h));
 
-    canvas.drawRect(
-      Rect.fromLTWH(0, 0, w, h),
-      skyPaint,
-    );
-
-    // SUN
-    final sunPaint = Paint()
-      ..color = const Color(0xFFFFD68B);
+    canvas.drawRect(Rect.fromLTWH(0, 0, w, h), skyPaint);
 
     canvas.drawCircle(
       Offset(w * 0.50, h * 0.36),
       h * 0.11,
-      sunPaint,
+      Paint()..color = const Color(0xFFFFD68B),
     );
 
-    // DISTANT MOUNTAINS
     final mountainPaint = Paint()
       ..color = const Color(0xFF544267);
 
@@ -414,7 +417,6 @@ class LobbyBackgroundPainter extends CustomPainter {
 
     canvas.drawPath(mountainPath, mountainPaint);
 
-    // SECOND MOUNTAIN LAYER
     final mountain2 = Paint()
       ..color = const Color(0xFF302B48);
 
@@ -431,7 +433,6 @@ class LobbyBackgroundPainter extends CustomPainter {
 
     canvas.drawPath(path2, mountain2);
 
-    // CITY BUILDINGS
     final buildingPaint = Paint()
       ..color = const Color(0xFF29243C);
 
@@ -441,16 +442,10 @@ class LobbyBackgroundPainter extends CustomPainter {
       double bh = h * (0.08 + (i % 4) * 0.035);
 
       canvas.drawRect(
-        Rect.fromLTWH(
-          x,
-          h * 0.61 - bh,
-          bw,
-          bh,
-        ),
+        Rect.fromLTWH(x, h * 0.61 - bh, bw, bh),
         buildingPaint,
       );
 
-      // WINDOWS
       final windowPaint = Paint()
         ..color = const Color(0xFFFFB45F).withOpacity(0.55);
 
@@ -467,7 +462,6 @@ class LobbyBackgroundPainter extends CustomPainter {
       }
     }
 
-    // GROUND
     final groundPaint = Paint()
       ..shader = const LinearGradient(
         begin: Alignment.topCenter,
@@ -485,7 +479,6 @@ class LobbyBackgroundPainter extends CustomPainter {
       groundPaint,
     );
 
-    // GRASS DETAILS
     final grassPaint = Paint()
       ..color = const Color(0xFF695342)
       ..strokeWidth = 2;
@@ -501,7 +494,6 @@ class LobbyBackgroundPainter extends CustomPainter {
       );
     }
 
-    // SUNSET GLOW
     final glowPaint = Paint()
       ..shader = RadialGradient(
         colors: [
