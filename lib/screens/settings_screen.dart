@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 
-import '../services/supabase_service.dart';
+import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -16,14 +15,13 @@ class SettingsScreen extends StatelessWidget {
         children: [
           const Card(
             child: ListTile(
-              leading: Icon(Icons.security),
-              title: Text('Account Security'),
+              leading: Icon(Icons.person),
+              title: Text('Guest Account'),
               subtitle: Text(
-                'Authentication managed by Supabase',
+                'Playing without login or signup',
               ),
             ),
           ),
-
           const Card(
             child: ListTile(
               leading: Icon(Icons.palette),
@@ -31,38 +29,18 @@ class SettingsScreen extends StatelessWidget {
               subtitle: Text('Dark theme'),
             ),
           ),
-
-          const SizedBox(height: 20),
-
-          FilledButton.icon(
-            onPressed: () async {
-              try {
-                await SupabaseService.logout();
-
-                if (context.mounted) {
-                  Navigator.popUntil(
-                    context,
-                    (route) => route.isFirst,
-                  );
-                }
-              } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Sign out failed: $e',
-                      ),
-                    ),
-                  );
-                }
-              }
-            },
-            icon: const Icon(Icons.logout),
-            label: const Text('Sign Out'),
-            style: FilledButton.styleFrom(
-              backgroundColor: Colors.redAccent,
+          const Card(
+            child: ListTile(
+              leading: Icon(Icons.videogame_asset),
+              title: Text('MEME HUNT'),
+              subtitle: Text('Hamim Developer'),
             ),
+          ),
+          const SizedBox(height: 20),
+          FilledButton.icon(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back),
+            label: const Text('BACK TO GAME'),
           ),
         ],
       ),
