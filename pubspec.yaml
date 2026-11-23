@@ -1,5 +1,6 @@
-name: meme_hunt
-description: MEME HUNT Multiplayer Game
+
+name: meme_fire
+description: MEME FIRE Multiplayer Game
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -12,7 +13,6 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  supabase_flutter: ^2.10.0
   http: ^1.2.2
 
 dev_dependencies:
