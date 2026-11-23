@@ -26,9 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFF211A35),
         title: Text(mode),
-        content: const Text(
-          'This game mode is coming soon!',
-        ),
+        content: const Text('Coming soon!'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -39,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget tile(
+  Widget modeCard(
     String title,
     String subtitle,
     IconData icon,
@@ -55,36 +53,54 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         title: Text(
           title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: Text(
-          subtitle,
-          style: const TextStyle(
-            color: Colors.white60,
-          ),
-        ),
-        trailing: const Icon(Icons.chevron_right),
+        subtitle: Text(subtitle),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
         onTap: () => showGameMessage(mode),
       ),
     );
   }
 
   Widget lobby() {
-    final username = data['username'].toString();
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final wide = constraints.maxWidth > 650;
 
-    return ListView(
-      padding: const EdgeInsets.all(18),
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: wide
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(child: leftSide()),
+                    const SizedBox(width: 16),
+                    Expanded(child: playerPreview()),
+                  ],
+                )
+              : Column(
+                  children: [
+                    leftSide(),
+                    playerPreview(),
+                  ],
+                ),
+        );
+      },
+    );
+  }
+
+  Widget leftSide() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             const Expanded(
               child: Text(
-                'MEME HUNT',
+                'MEME FIRE 🔥',
                 style: TextStyle(
+                  fontSize: 25,
                   fontWeight: FontWeight.w900,
-                  fontSize: 22,
                   letterSpacing: 2,
                 ),
               ),
@@ -102,45 +118,45 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 15),
+
+        const SizedBox(height: 10),
+
         Container(
-          padding: const EdgeInsets.all(20),
+          width: double.infinity,
+          padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [
-                Color(0xFF4C1D95),
-                Color(0xFF17112B),
+                Color(0xFFFF6B00),
+                Color(0xFF38134F),
               ],
             ),
-            borderRadius: BorderRadius.circular(22),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'WELCOME, $username',
-                style: const TextStyle(
-                  color: Colors.white70,
-                ),
-              ),
-              const SizedBox(height: 10),
+              const Text('WELCOME, PLAYER'),
+              const SizedBox(height: 8),
               const Text(
-                'Ready for the\nMeme Battle?',
+                'READY TO\nPLAY?',
                 style: TextStyle(
                   fontSize: 27,
                   fontWeight: FontWeight.w900,
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 10),
               Text(
-                'LEVEL ${data['level']}   •   '
-                'XP ${data['xp']}   •   '
+                'LEVEL ${data['level']}  •  '
+                'XP ${data['xp']}  •  '
                 '${data['rank_name']}',
               ),
             ],
           ),
         ),
-        const SizedBox(height: 22),
+
+        const SizedBox(height: 15),
+
         const Text(
           'GAME MODES',
           style: TextStyle(
@@ -148,36 +164,85 @@ class _HomeScreenState extends State<HomeScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 10),
-        tile(
+
+        modeCard(
           'ONLINE BATTLE',
-          'Play with other players',
+          'Play online',
           Icons.public,
           Colors.purpleAccent,
           'Online Battle',
         ),
-        tile(
+
+        modeCard(
           'PLAY WITH FRIENDS',
-          'Create or join a private room',
+          'Private room',
           Icons.people,
           Colors.blueAccent,
           'Friends',
         ),
-        tile(
+
+        modeCard(
           'RANKED MATCH',
-          'Compete for your rank',
+          'Rank competition',
           Icons.emoji_events,
-          Colors.amber,
+          Colors.orange,
           'Ranked',
         ),
-        tile(
+
+        modeCard(
           'PRACTICE',
-          'Practice your meme knowledge',
+          'Practice mode',
           Icons.school,
           Colors.greenAccent,
           'Practice',
         ),
       ],
+    );
+  }
+
+  Widget playerPreview() {
+    return Container(
+      height: 300,
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(22),
+        gradient: const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFF29204B),
+            Color(0xFF090910),
+          ],
+        ),
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          const Icon(
+            Icons.person,
+            size: 180,
+            color: Colors.white12,
+          ),
+          Positioned(
+            bottom: 18,
+            child: Column(
+              children: const [
+                Text(
+                  'PLAYER',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.orange,
+                  ),
+                ),
+                SizedBox(height: 5),
+                Text('3D PLAYER COMING SOON'),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -207,6 +272,17 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Profile',
           ),
         ],
+      ),
+      bottomSheet: const Padding(
+        padding: EdgeInsets.only(bottom: 2),
+        child: Text(
+          'Hamim Developer',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 10,
+            color: Colors.white38,
+          ),
+        ),
       ),
     );
   }
