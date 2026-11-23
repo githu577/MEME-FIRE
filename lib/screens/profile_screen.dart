@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -45,60 +46,36 @@ class ProfileScreen extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       children: [
         const SizedBox(height: 15),
-
         const CircleAvatar(
           radius: 42,
           backgroundColor: Color(0xFF4C1D95),
-          child: Icon(
-            Icons.person,
-            size: 44,
-          ),
+          child: Icon(Icons.person, size: 44),
         ),
-
         const SizedBox(height: 12),
-
         Text(
-          p['username']?.toString() ?? 'Player',
+          p['username']?.toString() ?? 'PLAYER',
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 23,
             fontWeight: FontWeight.bold,
           ),
         ),
-
-        Text(
-          p['rank_name']?.toString() ?? 'Bronze',
+        const Text(
+          'GUEST PLAYER',
           textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Color(0xFFBCA7EA),
-          ),
+          style: TextStyle(color: Color(0xFFBCA7EA)),
         ),
-
         const SizedBox(height: 20),
-
         Row(
           children: [
-            stat(
-              'LEVEL',
-              '${p['level'] ?? 1}',
-            ),
-            stat(
-              'XP',
-              '${p['xp'] ?? 0}',
-            ),
+            stat('LEVEL', '${p['level'] ?? 1}'),
+            stat('XP', '${p['xp'] ?? 0}'),
           ],
         ),
-
         Row(
           children: [
-            stat(
-              'WINS',
-              '${p['wins'] ?? 0}',
-            ),
-            stat(
-              'MATCHES',
-              '${p['matches_played'] ?? 0}',
-            ),
+            stat('WINS', '${p['wins'] ?? 0}'),
+            stat('MATCHES', '${p['matches_played'] ?? 0}'),
           ],
         ),
       ],
