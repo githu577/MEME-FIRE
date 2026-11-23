@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 
-import '../services/supabase_service.dart';
+import 'package:flutter/material.dart';
 import 'profile_screen.dart';
 import 'settings_screen.dart';
 
@@ -8,35 +7,18 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() =>
-      _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int tab = 0;
 
-  Map<String, dynamic>? data;
-  bool loading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    load();
-  }
-
-  Future<void> load() async {
-    try {
-      data = await SupabaseService.profile();
-    } catch (e) {
-      debugPrint('Profile error: $e');
-    }
-
-    if (mounted) {
-      setState(() {
-        loading = false;
-      });
-    }
-  }
+  final Map<String, dynamic> data = {
+    'username': 'PLAYER',
+    'level': 1,
+    'xp': 0,
+    'rank_name': 'Bronze',
+  };
 
   void showGameMessage(String mode) {
     showDialog(
@@ -45,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: const Color(0xFF211A35),
         title: Text(mode),
         content: const Text(
-          'This game mode is not available yet.',
+          'This game mode is coming soon!',
         ),
         actions: [
           TextButton(
@@ -90,10 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget lobby() {
-    final username =
-        (data?['username'] ?? 'PLAYER')
-            .toString()
-            .toUpperCase();
+    final username = data['username'].toString();
 
     return ListView(
       padding: const EdgeInsets.all(18),
@@ -115,8 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) =>
-                        const SettingsScreen(),
+                    builder: (_) => const SettingsScreen(),
                   ),
                 );
               },
@@ -124,9 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-
         const SizedBox(height: 15),
-
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -139,8 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(22),
           ),
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'WELCOME, $username',
@@ -158,16 +133,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                'LEVEL ${data?['level'] ?? 1}   •   '
-                'XP ${data?['xp'] ?? 0}   •   '
-                '${data?['rank_name'] ?? 'Bronze'}',
+                'LEVEL ${data['level']}   •   '
+                'XP ${data['xp']}   •   '
+                '${data['rank_name']}',
               ),
             ],
           ),
         ),
-
         const SizedBox(height: 22),
-
         const Text(
           'GAME MODES',
           style: TextStyle(
@@ -175,9 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-
         const SizedBox(height: 10),
-
         tile(
           'ONLINE BATTLE',
           'Play with other players',
@@ -185,7 +156,6 @@ class _HomeScreenState extends State<HomeScreen> {
           Colors.purpleAccent,
           'Online Battle',
         ),
-
         tile(
           'PLAY WITH FRIENDS',
           'Create or join a private room',
@@ -193,7 +163,6 @@ class _HomeScreenState extends State<HomeScreen> {
           Colors.blueAccent,
           'Friends',
         ),
-
         tile(
           'RANKED MATCH',
           'Compete for your rank',
@@ -201,7 +170,6 @@ class _HomeScreenState extends State<HomeScreen> {
           Colors.amber,
           'Ranked',
         ),
-
         tile(
           'PRACTICE',
           'Practice your meme knowledge',
@@ -215,26 +183,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget page() {
     if (tab == 0) return lobby();
-
     return ProfileScreen(profile: data);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: loading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : page(),
-      ),
+      body: SafeArea(child: page()),
       bottomNavigationBar: NavigationBar(
         selectedIndex: tab,
         onDestinationSelected: (index) {
-          setState(() {
-            tab = index;
-          });
+          setState(() => tab = index);
         },
         destinations: const [
           NavigationDestination(
