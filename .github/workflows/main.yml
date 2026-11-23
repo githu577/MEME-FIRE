@@ -1,5 +1,5 @@
 
-name: MEME HUNT APK Build
+name: MEME FIRE APK Build
 
 on:
   workflow_dispatch:
@@ -32,12 +32,12 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Build MEME HUNT APK
-        run: flutter build apk --release --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }} --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+      - name: Build MEME FIRE APK
+        run: flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: meme-hunt-apk
+          name: meme-fire-apk
           path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
